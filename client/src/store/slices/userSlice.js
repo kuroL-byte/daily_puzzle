@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getUserStats, saveUserStats, getAllActivity, calculateStreak } from '../../services/storage';
+import { getUserStats, saveUserStats, getAllActivity, calculateStreak, syncDailyScores } from '../../services/storage';
 import dayjs from 'dayjs';
 
 // Async thunk to load user stats from IndexedDB
@@ -11,6 +11,14 @@ export const loadUserStats = createAsyncThunk(
                 getUserStats(),
                 getAllActivity()
             ]);
+
+            // Attempt background sync if we have a user stats object (implying strict user identity or just anonymous ID)
+            // For now, we sync if stats exist.
+            if (stats?.id) {
+                syncDailyScores(stats.id).then(count => {
+                    if (count > 0) console.log('Synced entries:', count);
+                }).catch(err => console.error(err));
+            }
 
             const currentStreak = calculateStreak(activities);
 

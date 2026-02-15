@@ -15,12 +15,13 @@ model User {
   progress  DailyProgress[]
 }
 
-model DailyProgress {
+model DailyScore {
   id        String   @id @default(uuid())
   userId    String
-  date      String
+  date      String   // YYYY-MM-DD
   score     Int
-  streak    Int
+  timeTaken Int      @default(0)
+  streak    Int      @default(0)
   completed Boolean  @default(false)
 
   user      User @relation(fields: [userId], references: [id])
