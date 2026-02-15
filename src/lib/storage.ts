@@ -22,8 +22,28 @@ export const initDB = async () => {
             if (!db.objectStoreNames.contains('user_stats')) {
                 db.createObjectStore('user_stats', { keyPath: 'id' });
             }
+            if (!db.objectStoreNames.contains('puzzle_progress')) {
+                db.createObjectStore('puzzle_progress', { keyPath: 'date' });
+            }
         },
     });
+};
+
+export interface PuzzleProgress {
+    date: string;
+    elapsedTime: number;
+    hintsUsed: number;
+    currentValue: number;
+}
+
+export const savePuzzleProgress = async (progress: PuzzleProgress) => {
+    const db = await initDB();
+    return db.put('puzzle_progress', progress);
+};
+
+export const getPuzzleProgress = async (date: string): Promise<PuzzleProgress | undefined> => {
+    const db = await initDB();
+    return db.get('puzzle_progress', date);
 };
 
 export const saveDailyActivity = async (activity: Omit<DailyActivity, 'synced'> & { synced?: boolean }) => {

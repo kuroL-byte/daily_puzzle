@@ -1,7 +1,7 @@
 "use client";
 
 import Container from "@/components/container";
-import PuzzleBoard from "@/components/puzzle-board";
+import DailyDashboard from "@/components/daily-dashboard";
 import ActivityHeatmap from "@/components/activity-heatmap";
 import StreakDisplay from "@/components/streak-display";
 import { useSync } from "@/hooks/use-sync";
@@ -28,7 +28,12 @@ export default function Home() {
                 Engineering consistency through quantitative daily challenges.
               </p>
             </div>
-            <StreakDisplay />
+            <div className="flex items-center gap-6">
+              <button className="hidden sm:flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-2xl text-[10px] font-black uppercase tracking-widest text-[#222222] hover:bg-gray-50 transition-all">
+                Sign In
+              </button>
+              <StreakDisplay />
+            </div>
           </div>
         </Container>
       </header>
@@ -36,7 +41,7 @@ export default function Home() {
       <main className="py-24">
         <Container>
           <div className="flex flex-col items-center gap-24">
-            <PuzzleBoard />
+            <DailyDashboard />
             <div className="w-full">
               <ActivityHeatmap />
             </div>
